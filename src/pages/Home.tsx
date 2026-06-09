@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar.tsx"
 import Tasks from "../components/Task.tsx"
 import {useState} from "react"
+import { SquareArrowRight } from "lucide-react"
 
 interface Task  {
     name: string
@@ -26,16 +27,20 @@ export default function Home() {
     return (
         <div>
             <Navbar/>
-
-            <form onSubmit={(e) => {
-                e.preventDefault()
-                addTask()
-                }}
-            className="flex gap-2">
-                <input value={input} onChange={(e) => setInput(e.target.value)} className="border p-2" placeholder="Enter a task..."/>
-                <button className="bg-blue-500 text-white px-3">Ok</button>
-            </form>
-            <Tasks tasks={tasks} removeTask={removeTask}/>
+            <br />
+            <div className="flex flex-col items-center justify-center">
+                <form onSubmit={(e) => {
+                    e.preventDefault()
+                    addTask()
+                    }}
+                className="flex flex-col items-center gap-2">
+                    <input value={input} onChange={(e) => setInput(e.target.value)} className="border p-2" placeholder="Enter a task..."/>
+                    <button className="text-white px-3 py-2 rounded">
+                        <SquareArrowRight size={32} color="black"/>
+                    </button>
+                </form>
+                <Tasks tasks={tasks} removeTask={removeTask}/>
+            </div>
         </div>
     )
 }
