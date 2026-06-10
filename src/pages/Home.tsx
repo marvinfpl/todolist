@@ -1,5 +1,5 @@
-import Navbar from "../components/Navbar.tsx"
-import Tasks from "../components/Task.tsx"
+import Navbar from "@/components/Navbar.tsx"
+import Tasks from "@/components/Task.tsx"
 import {useState, useEffect} from "react"
 import { SquareArrowRight } from "lucide-react"
 
@@ -45,7 +45,7 @@ export default function Home() {
     }
 
     return (
-        <div>
+        <div className="bg-slate-900">
             <Navbar/>
             <br />
             <div className="flex flex-col items-center justify-center">
@@ -53,10 +53,10 @@ export default function Home() {
                     e.preventDefault()
                     addTask()
                     }}
-                className="flex flex-col items-center gap-3">
-                    <input value={input} onChange={(e) => setInput(e.target.value)} className="border p-2 rounded-xl" placeholder="Enter a task..."/>
+                className="flex flex-col items-center gap-3 text-white">
+                    <input value={input} onChange={(e) => setInput(e.target.value)} className="border border-white p-2 rounded-xl" placeholder="Enter a task..."/>
                     <button className="text-white px-3 py-2 rounded transition hover:scale-110">
-                        <SquareArrowRight size={32} color="black"/>
+                        <SquareArrowRight size={32} color="white"/>
                     </button>
                 </form>
                 <Tasks tasks={tasks} removeTask={removeTask} toggleTask={toggleTask}/>

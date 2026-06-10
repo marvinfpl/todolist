@@ -1,4 +1,5 @@
 import { Trash2 } from "lucide-react"
+import {Checkbox} from "@/@/components/ui/checkbox"
 
 interface Task  {
     name: string
@@ -14,12 +15,13 @@ type Props = {
 export default function Tasks({ tasks, removeTask, toggleTask}: Props) {
     return (
       <div className="flex flex-col gap-3 px-6">
-        <h1 className="flex justify-center font-bold">Tasks</h1>
+        <h1 className="flex justify-center font-bold text-white">Tasks</h1>
         {tasks.map(task => (
           <div
             key={task.name}  
-            className="flex items-center bg-blue-600 rounded-xl border-2 p-4">
+            className="flex items-center bg-slate-800 rounded-xl border-2 p-4">
             <div className="flex-1 flex justify-start">
+              <Checkbox checked={task.done} onChange={() => toggleTask(task.name)} className="animation hover:scale-120"/>
               <input type="checkbox" checked={task.done} onChange={() => toggleTask(task.name)} className="animation hover:scale-120"/>
             </div>
             <div className="flex-1 flex justify-center">
@@ -27,7 +29,7 @@ export default function Tasks({ tasks, removeTask, toggleTask}: Props) {
             </div>
             <div className="flex-1 flex justify-end animation hover:scale-110">
               <button onClick={() => removeTask(task.name)}>
-                <Trash2 />
+                <Trash2 color="white"/>
               </button>
             </div>
           </div>
