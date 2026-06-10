@@ -82,7 +82,7 @@ export default function Home() {
                     addTask()
                     }}
                 className="flex flex-col items-center gap-3 text-white">
-                    <input value={input} onChange={(e) => setInput(e.target.value)} className="border border-slate-600 focus:border-blue-500 outline-none p-2 rounded-xl" placeholder="Enter a task..."/>
+                    <input value={input} onChange={(e) => setInput(e.target.value)} className="border border-slate-600 focus:border-blue-500 outline-none p-2 rounded-xl hover:border-blue-500" placeholder="Enter a task..."/>
                     <button className="text-white px-3 py-2 rounded transition hover:scale-110">
                         <SquareArrowRight size={32} color="white"/>
                     </button>
