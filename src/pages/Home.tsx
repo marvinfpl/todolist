@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar.tsx"
 import Tasks from "@/components/Task.tsx"
+import ProgressBar from "@/components/Progress.tsx"
 import {useState, useEffect} from "react"
 import { SquareArrowRight } from "lucide-react"
 
@@ -18,6 +19,9 @@ export default function Home() {
     });
 
     const [input, setInput] = useState("");
+
+    const completedTasks = tasks.filter(task => task.done).length
+    const percent = tasks.length === 0 ? 0 : Math.round((completedTasks / tasks.length) * 100);
 
     useEffect(() => {
         localStorage.setItem("tasks", JSON.stringify(tasks))
@@ -48,6 +52,7 @@ export default function Home() {
         <div className="bg-slate-900">
             <Navbar/>
             <br />
+            <ProgressBar percent={percent}/>
             <div className="flex flex-col items-center justify-center">
                 <form onSubmit={(e) => {
                     e.preventDefault()

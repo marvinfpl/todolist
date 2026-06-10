@@ -21,8 +21,7 @@ export default function Tasks({ tasks, removeTask, toggleTask}: Props) {
             key={task.name}  
             className="flex items-center bg-slate-800 rounded-xl border-2 p-4">
             <div className="flex-1 flex justify-start">
-              <Checkbox checked={task.done} onChange={() => toggleTask(task.name)} className="animation hover:scale-120"/>
-              <input type="checkbox" checked={task.done} onChange={() => toggleTask(task.name)} className="animation hover:scale-120"/>
+              <Checkbox checked={task.done} onCheckedChange={() => toggleTask(task.name)} className="animation hover:scale-120"/>
             </div>
             <div className="flex-1 flex justify-center">
               <span className={`${task.done ? "line-through text-gray-400" : ""}`}>{task.name}</span>
