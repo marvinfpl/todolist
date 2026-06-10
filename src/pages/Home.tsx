@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar.tsx"
 import Tasks from "@/components/Task.tsx"
 import ProgressBar from "@/components/Progress.tsx"
+import Footer from "@/components/Footer.tsx"
 import {useState, useEffect} from "react"
 import { SquareArrowRight } from "lucide-react"
 import confetti from "canvas-confetti"
@@ -70,7 +71,7 @@ export default function Home() {
     }
 
     return (
-        <div className="bg-slate-900">
+        <div className="min-h-screen bg-slate-900">
             <Navbar/>
             <br />
             <div className="flex flex-col items-center justify-center">
@@ -81,12 +82,15 @@ export default function Home() {
                     addTask()
                     }}
                 className="flex flex-col items-center gap-3 text-white">
-                    <input value={input} onChange={(e) => setInput(e.target.value)} className="border border-white p-2 rounded-xl" placeholder="Enter a task..."/>
+                    <input value={input} onChange={(e) => setInput(e.target.value)} className="border border-slate-600 focus:border-blue-500 outline-none p-2 rounded-xl" placeholder="Enter a task..."/>
                     <button className="text-white px-3 py-2 rounded transition hover:scale-110">
                         <SquareArrowRight size={32} color="white"/>
                     </button>
                 </form>
                 <Tasks tasks={tasks} removeTask={removeTask} toggleTask={toggleTask}/>
+            </div>
+            <div className="flex flex-col">
+                <Footer/>
             </div>
         </div>
     )

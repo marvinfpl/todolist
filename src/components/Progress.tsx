@@ -10,8 +10,8 @@ export default function ProgressBar({percent}: Props) {
                 <span>{percent}%</span>
             </div>
 
-            <div className="w-full h-3 bg-slate-800 rounded-full overflow-hidden transition-all hover:scale-102">
-                <div className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-500 ease-out shadow-lg shadow-blue-500/30 rounded-full" style={{width: `${percent}%`}}/>
+            <div className="w-full h-3 bg-slate-700 rounded-full transition-all hover:scale-102">
+                <div className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-500 ease-out shadow-lg shadow-blue-500/50 rounded-full" style={{width: `${percent}%`}}/>
             </div>
         </div>
     )
