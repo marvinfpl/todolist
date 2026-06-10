@@ -52,8 +52,9 @@ export default function Home() {
         <div className="bg-slate-900">
             <Navbar/>
             <br />
-            <ProgressBar percent={percent}/>
             <div className="flex flex-col items-center justify-center">
+                <ProgressBar percent={percent}/>
+                <br />
                 <form onSubmit={(e) => {
                     e.preventDefault()
                     addTask()

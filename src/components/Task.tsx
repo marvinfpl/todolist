@@ -24,7 +24,7 @@ export default function Tasks({ tasks, removeTask, toggleTask}: Props) {
               <Checkbox checked={task.done} onCheckedChange={() => toggleTask(task.name)} className="animation hover:scale-120"/>
             </div>
             <div className="flex-1 flex justify-center">
-              <span className={`${task.done ? "line-through text-gray-400" : ""}`}>{task.name}</span>
+              <span className={`${task.done ? "line-through text-gray-400" : "text-white"}`}>{task.name}</span>
             </div>
             <div className="flex-1 flex justify-end animation hover:scale-110">
               <button onClick={() => removeTask(task.name)}>

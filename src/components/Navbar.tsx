@@ -2,8 +2,9 @@ import {House, Settings, Info} from "lucide-react"
 import {Link} from "react-router-dom"
 
 export default function Navbar() {
+    /* ajouter thickness à la barre*/
     return (
-        <nav className="flex justify-around px-6 py-4 bg-slate-900 text-white">
+        <nav className="flex justify-around px-6 py-4 bg-slate-900 text-white border border-black">
                 <Link to='/about' className="flex flex-col items-center">
                     <Info size={32}/> 
                     <span>About Us</span>  
