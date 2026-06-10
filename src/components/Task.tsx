@@ -19,7 +19,7 @@ export default function Tasks({ tasks, removeTask, toggleTask}: Props) {
         {tasks.map(task => (
           <div
             key={task.name}  
-            className="flex items-center bg-slate-800 rounded-xl border-2 p-4">
+            className="flex items-center bg-slate-800 rounded-xl border-2 p-4 hover:border-cyan hover:scale-102">
             <div className="flex-1 flex justify-start">
               <Checkbox checked={task.done} onCheckedChange={() => toggleTask(task.name)} className="animation hover:scale-120"/>
             </div>

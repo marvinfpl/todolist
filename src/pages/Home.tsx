@@ -3,6 +3,7 @@ import Tasks from "@/components/Task.tsx"
 import ProgressBar from "@/components/Progress.tsx"
 import {useState, useEffect} from "react"
 import { SquareArrowRight } from "lucide-react"
+import confetti from "canvas-confetti"
 
 interface Task  {
     name: string
@@ -22,6 +23,26 @@ export default function Home() {
 
     const completedTasks = tasks.filter(task => task.done).length
     const percent = tasks.length === 0 ? 0 : Math.round((completedTasks / tasks.length) * 100);
+
+    useEffect(() => {
+        if (percent === 100) {
+            const duration = 1000;
+            const end = Date.now() + duration;
+            const frame = () => {
+                confetti({
+                    particleCount: 5,
+                    spread: 70,
+                    startVelocity: 40,
+                    origin: {y: 0.5},
+                });
+            
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+                }
+            }
+            frame();
+        }
+    }, [percent]);
 
     useEffect(() => {
         localStorage.setItem("tasks", JSON.stringify(tasks))
