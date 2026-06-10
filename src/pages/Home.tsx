@@ -1,6 +1,6 @@
 import Navbar from "../components/Navbar.tsx"
 import Tasks from "../components/Task.tsx"
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import { SquareArrowRight } from "lucide-react"
 
 interface Task  {
@@ -9,8 +9,19 @@ interface Task  {
 }
 
 export default function Home() {
-    const [tasks, setTasks] = useState<Task[]>([]);
+    const [tasks, setTasks] = useState<Task[]>(() => {
+        const saved = localStorage.getItem("tasks");
+        if (saved) {
+            return JSON.parse(saved);
+        }
+        return [];
+    });
+
     const [input, setInput] = useState("");
+
+    useEffect(() => {
+        localStorage.setItem("tasks", JSON.stringify(tasks))
+    }, [tasks]);
 
     function addTask() {
         if (!input) return;
