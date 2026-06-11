@@ -1,7 +1,11 @@
+import Navbar from "@/components/Navbar.tsx"
+import Theme from "@/components/Theme.tsx"
+
 export default function Settings() {
     return (
-        <div>
-            No settings for now (yes bcs the app aint ready yet)
+        <div className="min-h-screen bg-slate-900">
+            <Navbar/>
+            <Theme/>
         </div>
     )
 }
