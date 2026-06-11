@@ -1,21 +1,25 @@
-import Navbar from "../components/Navbar.tsx"
+import Navbar from "@/components/Navbar.tsx"
+import Footer from "@/components/Footer.tsx"
 
 export default function About() {
     return (
-        <div>
+        <div  className="min-h-screen bg-slate-900 text-white">
             <Navbar/>
             <p className="flex flex-col items-center text-center gap-4 p-6">
                 Hi There,
                 <br/>
-                I am Marvin, I like to build stuff, learn math and physics...
+                I am Marvin, I like to build stuff, learn math, physics and AI.
                 <br/>
                 My goals are: 
-                <li className="list-disc text-left">
-                    <ul>Become able to build everything I want</ul>
-                    <ul>Get accepted into Polytechnique, Paris</ul>
-                    <ul>Become a chess master (actually 2014 Fide the 9th June 2026)</ul>
-                </li>
+                <ul className="list-disc text-center">
+                    <li>Become able to build everything I want</li>
+                    <li>Get accepted into Polytechnique, Paris</li>
+                    <li>Become a chess master (actually 2014 Fide the 9th June 2026)</li>
+                </ul>
             </p>
+            <div className="flex flex-col">
+                <Footer/>
+            </div>
         </div>
     )
 }

@@ -15,7 +15,7 @@ type Props = {
 export default function Tasks({ tasks, removeTask, toggleTask}: Props) {
     return (
       <div className="flex flex-col gap-3 px-6">
-        <h1 className="flex justify-center font-bold text-white">Tasks</h1>
+        <h1 className="flex justify-center font-bold text-white ">Tasks</h1>
         {tasks.map(task => (
           <div
             key={task.name}  
