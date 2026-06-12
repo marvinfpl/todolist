@@ -5,8 +5,8 @@ import Footer from "@/components/Footer.tsx"
 import {useState, useEffect} from "react"
 import { SquareArrowRight } from "lucide-react"
 import confetti from "canvas-confetti"
-import {arrayMove, SortableContext} from "@dnd-kit/sortable"
-import { DndContext, type DragEndEvent } from "@dnd-kit/core"
+import {arrayMove, SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable"
+import { DndContext, type DragEndEvent, closestCenter } from "@dnd-kit/core"
 
 interface Task {
     id: string
@@ -17,10 +17,7 @@ interface Task {
 export default function Home() {
     const [tasks, setTasks] = useState<Task[]>(() => {
         const saved = localStorage.getItem("tasks");
-        if (saved) {
-            return JSON.parse(saved);
-        }
-        return [];
+        return saved ? (JSON.parse(saved) as Task[]) :  [];
     });
 
     const [input, setInput] = useState("");
@@ -75,15 +72,12 @@ export default function Home() {
 
     function handleDragEnd(event: DragEndEvent) {
         const {active, over} = event;
-        if (!over) return;
-        if (active.id === over.id) return;
+        if (!over || active.id === over.id) return;
+
         setTasks((tasks) => {
-            const oldIndex = tasks.findIndex(
-                task => task.id === active.id
-            );
-            const newIndex = tasks.findIndex(
-                task => task.id === over.id
-            );
+            const oldIndex = tasks.findIndex(task => task.id === active.id);
+            const newIndex = tasks.findIndex(task => task.id === over.id);
+            if (oldIndex === -1 || newIndex === -1) return tasks;
             return arrayMove(tasks, oldIndex, newIndex);
         });
     }
@@ -105,8 +99,8 @@ export default function Home() {
                         <SquareArrowRight size={32} color="white"/>
                     </button>
                 </form>
-                <DndContext onDragEnd={handleDragEnd}>
-                    <SortableContext items={tasks.map(task => task.id)}>
+                <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
+                    <SortableContext items={tasks.map(task => task.id)} strategy={verticalListSortingStrategy}>
                     <Tasks tasks={tasks} removeTask={removeTask} toggleTask={toggleTask}/>
                     </SortableContext>
                 </DndContext>

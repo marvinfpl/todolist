@@ -28,7 +28,6 @@ export function SortableTask({task, removeTask, toggleTask}: SortableTaskProps) 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    cursor: "grab",
     zIndex: transform ? 10 : 0,
   };
 
@@ -36,9 +35,9 @@ export function SortableTask({task, removeTask, toggleTask}: SortableTaskProps) 
   const [text, setText] = useState(task.name);
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className=" flex items-center bg-slate-800 rounded-xl border-2 p-4 transition hover:border-cyan-400 hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/50 cursor-grab active:cursor-grabbing">
-      <div>
-        <GripVertical className="text-white"/>
+    <div ref={setNodeRef} style={style} {...attributes} className=" flex items-center bg-slate-800 rounded-xl border-2 p-4 transition hover:border-cyan-400 hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/50">
+      <div {...listeners} className="cursor-grab active:cursor-grabbing px-2">
+        <GripVertical size={18}/>
       </div>
       <div className="flex-1 flex justify-start">
         <Checkbox checked={task.done} onCheckedChange={() => toggleTask(task.id)} className="transition-transform duration-200 hover:scale-110"/>
@@ -46,9 +45,9 @@ export function SortableTask({task, removeTask, toggleTask}: SortableTaskProps) 
 
       <div className="flex-1 flex justify-center w-64">
         {editing ? (
-          <input className="bg-slate-700 text-white rounded px-2 py-1 w-full" value={text} onChange={(e) => setText(e.target.value)} onBlur={() => setEditing(false)} autoFocus />
+          <input className="bg-slate-700 text-white rounded px-2 py-1 w-full cursor-text" value={text} onChange={(e) => setText(e.target.value)} onBlur={() => setEditing(false)} autoFocus />
         ) : (
-          <span className={task.done ? "line-through text-gray-400" : "text-white"} onDoubleClick={() => setEditing(true)}>
+          <span className={task.done ? "line-through text-gray-400 cursor-text cursor-text hover:text-cyan-300 hover:underline transition" : "text-white"} onDoubleClick={() => setEditing(true)}>
             {task.name}
           </span>
         )}
