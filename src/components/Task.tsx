@@ -40,7 +40,7 @@ export function SortableTask({task, removeTask, toggleTask}: SortableTaskProps) 
         <GripVertical size={18}/>
       </div>
       <div className="flex-1 flex justify-start">
-        <Checkbox checked={task.done} onCheckedChange={() => toggleTask(task.id)} className="h-5 w-5 transition-transform duration-200 hover:scale-110 border-slate-600 data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500 transition"/>
+        <Checkbox checked={task.done} onCheckedChange={() => toggleTask(task.id)} className="h-5 w-5 transition-all duration-300 ease-out data-[state=checked]:bg-green-400 data-[state=checked]:scale-110 hover:scale-105 active:scale-90 data-[state=checked]:shadow-lg data-[state=checked]:shadow-green-500/40"/>
       </div>
 
       <div className="flex-1 flex justify-center w-64">
