@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Trash2 } from "lucide-react";
+import { Trash2, GripVertical } from "lucide-react";
 import { Checkbox } from "@/@/components/ui/checkbox";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -28,14 +28,18 @@ export function SortableTask({task, removeTask, toggleTask}: SortableTaskProps) 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    cursor: "drag",
+    cursor: "grab",
+    zIndex: transform ? 10 : 0,
   };
 
   const [editing, setEditing] = useState(false);
   const [text, setText] = useState(task.name);
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className=" flex items-center bg-slate-800 rounded-xl border-2 p-4 transition hover:border-cyan-400 hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/50">
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className=" flex items-center bg-slate-800 rounded-xl border-2 p-4 transition hover:border-cyan-400 hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/50 cursor-grab active:cursor-grabbing">
+      <div>
+        <GripVertical className="text-white"/>
+      </div>
       <div className="flex-1 flex justify-start">
         <Checkbox checked={task.done} onCheckedChange={() => toggleTask(task.id)} className="transition-transform duration-200 hover:scale-110"/>
       </div>
