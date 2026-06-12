@@ -1,4 +1,5 @@
 import { Trash2 } from "lucide-react"
+import {useState} from "react"
 import {Checkbox} from "@/@/components/ui/checkbox"
 
 interface Task  {
@@ -13,6 +14,9 @@ type Props = {
 }
 
 export default function Tasks({ tasks, removeTask, toggleTask}: Props) {
+  const [editing, setEditing] = useState(false);
+  const [text, setText] = useState("NoName");
+
     return (
       <div className="flex flex-col gap-3 px-6">
         <h1 className="flex justify-center font-bold text-white ">Tasks</h1>
@@ -23,8 +27,17 @@ export default function Tasks({ tasks, removeTask, toggleTask}: Props) {
             <div className="flex-1 flex justify-start">
               <Checkbox checked={task.done} onCheckedChange={() => toggleTask(task.name)} className="transition-transform duration-200 hover:scale-120"/>
             </div>
-            <div className="flex-1 flex justify-center">
-              <span className={`${task.done ? "line-through text-gray-400" : "text-white"}`}>{task.name}</span>
+            <div className="flex-1 flex justify-center w-64">
+              <span className={`${task.done ? "line-through text-gray-400" : "text-white"}`}>
+                {
+                  editing ? (
+                    <input value={text} onChange={(e) => setText(e.target.value)} onBlur={() => setEditing(false)}/>
+                  ) :
+                  (
+                    <span onDoubleClick={() => setEditing(true)}>{task.name}</span>
+                  )
+                }
+              </span>
             </div>
             <div className="flex-1 flex justify-end animation hover:scale-110">
               <button onClick={() => removeTask(task.name)}>
