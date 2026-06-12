@@ -5,8 +5,11 @@ import Footer from "@/components/Footer.tsx"
 import {useState, useEffect} from "react"
 import { SquareArrowRight } from "lucide-react"
 import confetti from "canvas-confetti"
+import {arrayMove, SortableContext} from "@dnd-kit/sortable"
+import { DndContext, type DragEndEvent } from "@dnd-kit/core"
 
-interface Task  {
+interface Task {
+    id: string
     name: string
     done: boolean
 }
@@ -52,22 +55,37 @@ export default function Home() {
     function addTask() {
         if (!input) return;
 
-        const newTask: Task = {name: input, done: false};
+        const newTask: Task = {id: crypto.randomUUID(), name: input, done: false};
         setTasks(prev => [...prev, newTask]);
         setInput("");
     }
 
-    function toggleTask(name: string) {
+    function toggleTask(id: string) {
         setTasks(prev => prev.map(task => {
-            if (task.name === name) {
+            if (task.id === id) {
                 return {...task, done: !task.done}
             }
             return task;
         }))
     }
 
-    function removeTask(name: string) {
-        setTasks(prev => prev.filter(task => task.name !== name));
+    function removeTask(id: string) {
+        setTasks(prev => prev.filter(task => task.id !== id));
+    }
+
+    function handleDragEnd(event: DragEndEvent) {
+        const {active, over} = event;
+        if (!over) return;
+        if (active.id === over.id) return;
+        setTasks((tasks) => {
+            const oldIndex = tasks.findIndex(
+                task => task.id === active.id
+            );
+            const newIndex = tasks.findIndex(
+                task => task.id === over.id
+            );
+            return arrayMove(tasks, oldIndex, newIndex);
+        });
     }
 
     return (
@@ -87,7 +105,11 @@ export default function Home() {
                         <SquareArrowRight size={32} color="white"/>
                     </button>
                 </form>
-                <Tasks tasks={tasks} removeTask={removeTask} toggleTask={toggleTask}/>
+                <DndContext onDragEnd={handleDragEnd}>
+                    <SortableContext items={tasks.map(task => task.id)}>
+                    <Tasks tasks={tasks} removeTask={removeTask} toggleTask={toggleTask}/>
+                    </SortableContext>
+                </DndContext>
             </div>
             <div className="flex flex-col">
                 <Footer/>
