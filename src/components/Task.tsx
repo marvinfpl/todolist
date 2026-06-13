@@ -3,7 +3,7 @@ import { Trash2, GripVertical } from "lucide-react";
 import { Checkbox } from "@/@/components/ui/checkbox";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {motion} from "motion/react"
+import {motion, AnimatePresence} from "motion/react"
 
 interface Task {
   id: string;
@@ -38,12 +38,12 @@ export function SortableTask({task, removeTask, toggleTask, renameTask}: Sortabl
   const [text, setText] = useState(task.name);
 
   return (
-    <motion.div whileHover={{scale: 1.02, y:-2}}>
+    <motion.div layout whileHover={{scale: 1.02, y:-2}} initial={{opacity: 0, y:-20, scale:0.95}} animate={{opacity: 1, y:0, scale:1}} exit={{opacity:0, x:100, scale:0.8}} transition={{duration: 0.25}}>
       <div ref={setNodeRef} style={style} {...attributes} className=" flex items-center bg-slate-800 rounded-xl border-2 p-4 transition hover:border-cyan-400 hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/50">
         <div {...listeners} className="cursor-grab active:cursor-grabbing px-2">
           <GripVertical color="white" size={18}/>
         </div>
-        <motion.div animate={task.done ? {scale: [1, 1.3, 1]} : {scale: 1}} transition={{duration: 0.4}}>
+        <motion.div className="flex-1 flex justify-start" animate={task.done ? {scale: [1, 1.1, 1]} : {scale: 1}} transition={{duration: 0.4}}>
           <div className="flex-1 flex justify-start">
             <Checkbox checked={task.done} onCheckedChange={() => toggleTask(task.id)} className="h-5 w-5 transition-all duration-300 ease-out data-[state=checked]:bg-green-400 data-[state=checked]:scale-110 hover:scale-105 active:scale-90 data-[state=checked]:shadow-lg data-[state=checked]:shadow-green-500/40"/>
           </div>
@@ -83,9 +83,11 @@ export default function Tasks({tasks, removeTask, toggleTask, renameTask }: Prop
   return (
     <div className="flex flex-col gap-3 px-6">
       <h1 className="flex justify-center font-bold text-white">Tasks</h1>
-      {tasks.map((task) => (
-        <SortableTask key={task.id} task={task} removeTask={removeTask} toggleTask={toggleTask} renameTask={renameTask}/>
-      ))}
+      <AnimatePresence>
+        {tasks.map((task) => (
+          <SortableTask key={task.id} task={task} removeTask={removeTask} toggleTask={toggleTask} renameTask={renameTask}/>
+        ))}
+      </AnimatePresence>
     </div>
   );
 }

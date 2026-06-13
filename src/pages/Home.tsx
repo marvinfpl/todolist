@@ -7,7 +7,6 @@ import { SquareArrowRight } from "lucide-react"
 import confetti from "canvas-confetti"
 import {arrayMove, SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable"
 import { DndContext, type DragEndEvent, closestCenter } from "@dnd-kit/core"
-import {motion} from "motion/react"
 
 interface Task {
     id: string
