@@ -63,12 +63,19 @@ export default function Home() {
                 return {...task, done: !task.done}
             }
             return task;
-        }))
+        }));
     }
 
     function removeTask(id: string) {
         setTasks(prev => prev.filter(task => task.id !== id));
     }
+
+    function renameTask(id: string, newName: string) {
+        setTasks(prev => prev.map(task =>
+            task.id === id ? {...task, name: newName} : task 
+        ));
+    }
+
 
     function handleDragEnd(event: DragEndEvent) {
         const {active, over} = event;
@@ -101,7 +108,7 @@ export default function Home() {
                 </form>
                 <DndContext onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
                     <SortableContext items={tasks.map(task => task.id)} strategy={verticalListSortingStrategy}>
-                    <Tasks tasks={tasks} removeTask={removeTask} toggleTask={toggleTask}/>
+                    <Tasks tasks={tasks} removeTask={removeTask} toggleTask={toggleTask} renameTask={renameTask}/>
                     </SortableContext>
                 </DndContext>
             </div>

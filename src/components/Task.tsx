@@ -14,15 +14,17 @@ type Props = {
   tasks: Task[];
   removeTask: (id: string) => void;
   toggleTask: (id: string) => void;
+  renameTask: (id: string, newName: string) => void;
 };
 
 type SortableTaskProps = {
   task: Task;
   removeTask: (id: string) => void;
   toggleTask: (id: string) => void;
+  renameTask: (id: string, newName: string) => void;
 };
 
-export function SortableTask({task, removeTask, toggleTask}: SortableTaskProps) {
+export function SortableTask({task, removeTask, toggleTask, renameTask}: SortableTaskProps) {
   const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: task.id});
 
   const style = {
@@ -45,7 +47,19 @@ export function SortableTask({task, removeTask, toggleTask}: SortableTaskProps) 
 
       <div className="flex-1 flex justify-center w-64">
         {editing ? (
-          <input className="bg-slate-700 text-white rounded px-2 py-1 w-full cursor-text" value={text} onChange={(e) => setText(e.target.value)} onBlur={() => setEditing(false)} autoFocus />
+          <input className="bg-slate-700 text-white rounded px-2 py-1 w-full cursor-text" value={text} onChange={(e) => {
+            const newName: string = e.target.value;
+            setText(newName);
+          }} onBlur={() => {
+            renameTask(task.id, text);
+            setEditing(false);
+          }} onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              renameTask(task.id, text);
+              setEditing(false);
+            }
+          }}
+            autoFocus />
         ) : (
           <span className={task.done ? "line-through text-gray-400 cursor-text cursor-text hover:text-cyan-300 hover:underline transition" : "text-white"} onDoubleClick={() => setEditing(true)}>
             {task.name}
@@ -62,12 +76,12 @@ export function SortableTask({task, removeTask, toggleTask}: SortableTaskProps) 
   );
 }
 
-export default function Tasks({tasks, removeTask, toggleTask }: Props) {
+export default function Tasks({tasks, removeTask, toggleTask, renameTask }: Props) {
   return (
     <div className="flex flex-col gap-3 px-6">
       <h1 className="flex justify-center font-bold text-white">Tasks</h1>
       {tasks.map((task) => (
-        <SortableTask key={task.id} task={task} removeTask={removeTask} toggleTask={toggleTask}/>
+        <SortableTask key={task.id} task={task} removeTask={removeTask} toggleTask={toggleTask} renameTask={renameTask}/>
       ))}
     </div>
   );
