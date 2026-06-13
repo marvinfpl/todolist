@@ -3,6 +3,7 @@ import { Trash2, GripVertical } from "lucide-react";
 import { Checkbox } from "@/@/components/ui/checkbox";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import {motion} from "motion/react"
 
 interface Task {
   id: string;
@@ -37,42 +38,44 @@ export function SortableTask({task, removeTask, toggleTask, renameTask}: Sortabl
   const [text, setText] = useState(task.name);
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} className=" flex items-center bg-slate-800 rounded-xl border-2 p-4 transition hover:border-cyan-400 hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/50">
-      <div {...listeners} className="cursor-grab active:cursor-grabbing px-2">
-        <GripVertical size={18}/>
-      </div>
-      <div className="flex-1 flex justify-start">
-        <Checkbox checked={task.done} onCheckedChange={() => toggleTask(task.id)} className="h-5 w-5 transition-all duration-300 ease-out data-[state=checked]:bg-green-400 data-[state=checked]:scale-110 hover:scale-105 active:scale-90 data-[state=checked]:shadow-lg data-[state=checked]:shadow-green-500/40"/>
-      </div>
-
-      <div className="flex-1 flex justify-center w-64">
-        {editing ? (
-          <input className="bg-slate-700 text-white rounded px-2 py-1 w-full cursor-text" value={text} onChange={(e) => {
-            const newName: string = e.target.value;
-            setText(newName);
-          }} onBlur={() => {
-            renameTask(task.id, text);
-            setEditing(false);
-          }} onKeyDown={(e) => {
-            if (e.key === "Enter") {
+    <motion.div whileHover={{scale: 1.02, y:-2}}>
+      <div ref={setNodeRef} style={style} {...attributes} className=" flex items-center bg-slate-800 rounded-xl border-2 p-4 transition hover:border-cyan-400 hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/50">
+        <div {...listeners} className="cursor-grab active:cursor-grabbing px-2">
+          <GripVertical color="white" size={18}/>
+        </div>
+        <motion.div animate={task.done ? {scale: [1, 1.3, 1]} : {scale: 1}} transition={{duration: 0.4}}>
+          <div className="flex-1 flex justify-start">
+            <Checkbox checked={task.done} onCheckedChange={() => toggleTask(task.id)} className="h-5 w-5 transition-all duration-300 ease-out data-[state=checked]:bg-green-400 data-[state=checked]:scale-110 hover:scale-105 active:scale-90 data-[state=checked]:shadow-lg data-[state=checked]:shadow-green-500/40"/>
+          </div>
+        </motion.div>
+        <div className="flex-1 flex justify-center w-64">
+          {editing ? (
+            <input className="bg-slate-700 text-white rounded px-2 py-1 w-full cursor-text" value={text} onChange={(e) => {
+              const newName: string = e.target.value;
+              setText(newName);
+            }} onBlur={() => {
               renameTask(task.id, text);
               setEditing(false);
-            }
-          }}
-            autoFocus />
-        ) : (
-          <span className={task.done ? "line-through text-gray-400 cursor-text cursor-text hover:text-cyan-300 hover:underline transition" : "text-white"} onDoubleClick={() => setEditing(true)}>
-            {task.name}
-          </span>
-        )}
+            }} onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                renameTask(task.id, text);
+                setEditing(false);
+              }
+            }}
+              autoFocus />
+          ) : (
+            <span className={task.done ? "line-through text-gray-400 cursor-text cursor-text hover:text-cyan-300 hover:underline transition" : "text-white"} onDoubleClick={() => setEditing(true)}>
+              {task.name}
+            </span>
+          )}
+        </div>
+        <div className="flex-1 flex justify-end">
+          <button onClick={() => removeTask(task.id)} className="transition-transform hover:scale-110">
+            <Trash2 color="white" />
+          </button>
+        </div>
       </div>
-
-      <div className="flex-1 flex justify-end">
-        <button onClick={() => removeTask(task.id)} className="transition-transform hover:scale-110">
-          <Trash2 color="white" />
-        </button>
-      </div>
-    </div>
+    </motion.div>
   );
 }
 
